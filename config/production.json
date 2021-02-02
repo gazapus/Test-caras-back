@@ -1,0 +1,9 @@
+{
+    "Customer": {
+        "dbConfig": {
+            "host": "mongodb+srv://gazapus2:Ph3UX3CHRJ1Eg0fA@cluster0.tswk6.mongodb.net",
+            "port": 8080,
+            "dbName": "test-caras?retryWrites=true&w=majority"
+        }
+    }
+}

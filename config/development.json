@@ -1,0 +1,7 @@
+{
+  "Customer": {
+    "dbConfig": {
+      "host": "mongodb://localhost:27017"
+    }
+  }
+}
