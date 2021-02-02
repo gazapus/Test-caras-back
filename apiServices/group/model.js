@@ -16,7 +16,8 @@ let schema = new Schema({
         type: String,
         required: true,
         default: 'España'
-    }
+    },
+    tests: [{ type: Schema.ObjectId, ref: 'Test' }],
 })
 
 schema.method("toJSON", function () {

@@ -34,7 +34,8 @@ exports.create = function (req, res) {
         expiration_time: req.body.expiration_time,
         max_uses: req.body.max_uses,
         owner: req.body.owner,
-        country: req.body.country
+        country: req.body.country,
+        tests: []
     })
     group.save()
         .then(data => {
