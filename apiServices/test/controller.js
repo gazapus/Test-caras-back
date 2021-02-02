@@ -1,16 +1,16 @@
 var Test = require('./model');
 
-exports.find_all = function(req, res) {
+exports.get_all = function (req, res) {
     Test.find({})
         .then(data => {
             res.send(data);
         })
         .catch(err => {
-            res.status(500).send({ message: err.message || "Error retrieving results "})
+            res.status(500).send({ message: err.message || "Error retrieving data" })
         })
 }
 
-exports.find_one = function (req, res) {
+exports.get_one = function (req, res) {
     const id = req.params.id;
     Test.findById(id)
         .then(data => {
@@ -26,33 +26,18 @@ exports.find_one = function (req, res) {
         });
 };
 
+
 exports.create = function (req, res) {
-    let result = {
-        successes: res.body.testInformation.successes,
-        successesEnneatype: res.body.testInformation.successesEnneatype,
-        successesPercentile: res.body.testInformation.successesPercentile,
-        errors: res.body.testInformation.errors,
-        errorsEnneatype: res.body.testInformation.errorsEnneatype,
-        errorsPercentile: res.body.testInformation.errorsPercentile,
-        netSuccesses: res.body.testInformation.netSuccesses,
-        netSuccessesEnneatype: res.body.testInformation.netSuccessesEnneatype,
-        netSuccessesPercentile: res.body.testInformation.netSuccessesPercentile,
-        ici: res.body.testInformation.ici,
-        iciEnneatype: res.body.testInformation.iciEnneatype,
-        iciPercentile: res.body.testInformation.iciPercentile,
-        subtype: res.body.testInformation.subtype,
-        answerType: res.body.testInformation.answerType,
-        perfomance: res.body.testInformation.perfomance,
-        impulsivityControl: res.body.testInformation.impulsivityControl,
-        diagnosis: res.body.testInformation.diagnosis
-    }
     let test = new Test({
-        instituionalInformation: req.body.institutional,
-        name: res.body.personalInformation.name,
-        lastname: res.body.personalInformation.lastname,
-        age: res.body.personalInformation.age,
-        sex: res.body.personalInformation.sex,
-        result: result
+        owner: req.body.owner,
+        name: req.body.personalInformation.name,
+        lastname:  req.body.personalInformation.lastname,
+        age:  req.body.personalInformation.age,
+        sex:  req.body.personalInformation.sex,
+        institution:  req.body.institutionalInformation.institution,
+        grade: req.body.institutionalInformation.grade,
+        country: req.body.institutionalInformation.country,
+        result: req.body.result
     })
     test.save()
         .then(data => {
@@ -60,14 +45,15 @@ exports.create = function (req, res) {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || '"Some error occurred while creating this result'
+                message: err.message || '"Some error occurred while creating this data'
             })
         })
 }
 
-exports.delete = (req, res) => {
+
+exports.delete_one = (req, res) => {
     const id = req.params.id;
-    Result.findByIdAndRemove(id)
+    Test.findByIdAndRemove(id)
         .then(data => {
             if (data) {
                 res.send({
@@ -82,21 +68,6 @@ exports.delete = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: "Could not delete result with id=" + id
-            });
-        });
-};
-
-exports.delete_all = (req, res) => {
-    Result.deleteMany({})
-        .then(data => {
-            res.send({
-                message: `${data.deletedCount} results were deleted successfully!`
-            });
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while removing all results."
             });
         });
 };

@@ -8,7 +8,9 @@ let schema = new Schema({
     lastname: String,
     age: Number,
     sex: String,
-    instituionalInformation: { type: Schema.ObjectId, ref: 'Institutional' },
+    institution: String,
+    grade: String,
+    country: String,
     result: {
         successes: Number,
         successesEnneatype: Number,
