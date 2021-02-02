@@ -5,7 +5,8 @@ let schema = new Schema({
     comment: {
         type: String,
         default: ''
-    },    createdAt: {type: Date, default: Date.now()},
+    },    
+    createdAt: {type: Date, default: Date.now()},
     institution: String,
     grade: String,
     expiration_time: Date,

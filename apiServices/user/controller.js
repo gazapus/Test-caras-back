@@ -59,7 +59,6 @@ exports.update_one = function (req, res) {
     const id = req.params.id;
     User.findOne({ email: req.body.email })
         .then(data => {
-            console.log(data)
             if (data && data.id !== id) {
                 return res.status(400).send({ message: "The email is used" })
             } else {
