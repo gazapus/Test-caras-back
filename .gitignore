@@ -1,2 +1,3 @@
 /node_modules
-secret.config.js
+production.json
+/config/production.json
