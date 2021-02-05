@@ -3,7 +3,7 @@ const config = require('config');
 const mongoose = require('mongoose');
 
 const dbConfig = config.get('Customer.dbConfig');
-const PORT = dbConfig.port;
+const PORT = process.env.PORT || dbConfig.port;
 
 mongoose
     .connect(`${dbConfig.host}/${dbConfig.dbName}`, {
@@ -19,5 +19,5 @@ mongoose
     });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${dbConfig.port}.`);
+    console.log(`Server is running on port ${PORT}.`);
 });

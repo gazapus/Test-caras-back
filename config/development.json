@@ -1,7 +1,8 @@
 {
   "Customer": {
     "dbConfig": {
-      "host": "mongodb://localhost:27017"
+      "host": "mongodb+srv://gazapus:Fati2511@cluster0.yjnbb.mongodb.net",
+      "dbName": "caras-r?retryWrites=true&w=majority"
     }
   }
 }
