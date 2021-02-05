@@ -105,3 +105,16 @@ exports.delete_all = (req, res) => {
             });
         });
 };
+
+exports.add_test = async function (req, res) {
+    let group;
+    try {
+        group = await Group.findOne({_id: req.params.id });
+        group.tests.push(req.body.test_id);
+        group.save();
+        res.status(200).send("Ok");
+    } catch(err) {
+        if(!group) return res.status(404).send({message: "Group not found"});
+        res.status(500).send({ message: err.message || "Error retrieving result"})
+    }
+}

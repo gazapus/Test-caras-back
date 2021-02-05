@@ -1,7 +1,9 @@
 {
     "Customer": {
         "dbConfig": {
-            "host": "PROD_SERVER"
+            "host": "PROD_HOST",
+            "port": "process.env.PORT",
+            "dbName": "PROD_DBNAME"
         }
     }
 }

@@ -1,20 +1,10 @@
-USUARIOS
-
-
-GRUPOS DE TEST: 
-id
-comentario:
-datos_de_institucion:
-expiracion:
-maxima_cantidad:
-creador:
-
-tests:
-grupo_de_test:
-creador:
-datos_del_alumno:
-datos_de_institucion:
-resultados:
-
 elegir node config
 en powershell: $env:NODE_ENV="development"
+
+* registrarse
+* iniciar sesion
+* enviar test
+* hacer test enviado
+* ver resultados 
+
+host.com/idgroup/

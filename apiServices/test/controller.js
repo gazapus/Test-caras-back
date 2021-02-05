@@ -1,4 +1,5 @@
 var Test = require('./model');
+var User = require('../user/model');
 
 exports.get_all = function (req, res) {
     Test.find({})
@@ -27,7 +28,9 @@ exports.get_one = function (req, res) {
 };
 
 
-exports.create = function (req, res) {
+exports.create = async function (req, res) {
+    let user = User.findById(req.body.owner);
+    if(!user) return res.status(404).send({message: 'There is not valid owner'});
     let test = new Test({
         owner: req.body.owner,
         name: req.body.personalInformation.name,
