@@ -27,33 +27,22 @@ exports.get_one = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    User.findOne({ email: req.body.email })
+    let user = new User({
+        name: req.body.name,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        password: req.body.password,
+    })
+    user.save()
         .then(data => {
-            if (data) {
-                return res.status(400).send({ message: "The email is used" })
-            } else {
-                let user = new User({
-                    name: req.body.name,
-                    lastname: req.body.lastname,
-                    email: req.body.email,
-                    password: req.body.password,
-                })
-                user.save()
-                    .then(data => {
-                        res.status(200).send(data);
-                    })
-                    .catch(err => {
-                        res.status(500).send({
-                            message: err.message || '"Some error occurred while creating this data'
-                        })
-                    })
-            }
+            res.status(200).send(data);
         })
         .catch(err => {
-            res.status(500).send({ message: err.message || "Error retrieving data" })
+            res.status(500).send({
+                message: err.message || '"Some error occurred while creating this data'
+            })
         })
 }
-
 
 exports.update_one = function (req, res) {
     const id = req.params.id;
