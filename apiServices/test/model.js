@@ -29,7 +29,8 @@ let schema = new Schema({
         perfomance: String,
         impulsivityControl: String,
         diagnosis: String
-    }
+    },
+    selectedFaces: [Number]
 });
 
 schema.method("toJSON", function () {

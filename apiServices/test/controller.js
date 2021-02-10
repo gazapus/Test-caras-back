@@ -40,7 +40,8 @@ exports.create = async function (req, res) {
         institution:  req.body.institutionalInformation.institution,
         grade: req.body.institutionalInformation.grade,
         country: req.body.institutionalInformation.country,
-        result: req.body.result
+        result: req.body.result,
+        selectedFaces: req.body.selectedFaces
     })
     test.save()
         .then(data => {
@@ -71,6 +72,21 @@ exports.delete_one = (req, res) => {
         .catch(err => {
             res.status(500).send({
                 message: "Could not delete result with id=" + id
+            });
+        });
+};
+
+exports.delete_all = (req, res) => {
+    Test.deleteMany({})
+        .then(data => {
+            res.send({
+                message: `${data.deletedCount} results were deleted successfully!`
+            });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while removing all results."
             });
         });
 };
