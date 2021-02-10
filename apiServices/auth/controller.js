@@ -1,10 +1,10 @@
-var User = require('./model');
+var User = require('../user/model');
 const bcrypt = require('bcryptjs');
 var jwt = require("jsonwebtoken");
 const secret = require("../../secret");
 
 exports.sign_in = async function (req, res) {
-    const A_DAY_IN_MS = 86400;
+    const A_DAY_IN_MS = 500;
     try {
         const user = await User.findOne({ email: req.body.email });
         if (!user) return res.status(404).send({ message: "User not found" });
@@ -47,4 +47,8 @@ exports.sign_up = async function (req, res) {
     } catch (err) {
         return res.status(500).send({ message: err.message || 'Server Error' });
     }
+}
+
+exports.is_logged = async function(req, res) {
+    
 }
