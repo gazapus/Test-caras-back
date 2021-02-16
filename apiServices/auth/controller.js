@@ -25,7 +25,7 @@ exports.sign_in = async function (req, res) {
     }
 }
 
-exports.sign_up = async function (req, res) {
+exports.sign_up = async function (req, res, next) {
     const SALT_ROUNDS = 10;
     try {
         const hashPassword = await bcrypt.hash(req.body.password, SALT_ROUNDS);
@@ -37,7 +37,9 @@ exports.sign_up = async function (req, res) {
         })
         user.save()
             .then(data => {
-                return res.status(200).send(data);
+                req.body.id = data.id;
+                console.log(data);
+                next();
             })
             .catch(err => {
                 return res.status(500).send({
@@ -49,6 +51,18 @@ exports.sign_up = async function (req, res) {
     }
 }
 
-exports.is_logged = async function(req, res) {
-    
+exports.confirm = async function (req, res) {
+    User.updateOne(
+        { _id: req.params.id }, 
+        { confirmed: true }, 
+        (err, response) => {
+            if (err) return res.status(500).send({ message: 'Some error occurred while updating this data' });
+            if(response.n === 0) return res.status(404).send({ message: 'User not found' });
+            return res.status(200).send(response)
+        }
+    )
+}
+
+exports.is_logged = async function (req, res) {
+
 }

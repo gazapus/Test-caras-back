@@ -6,6 +6,10 @@ let schema = new Schema({
     lastname: String,
     email: String,
     password: String,
+    confirmed: {
+        type: Boolean,
+        default: false
+    }
 },
     { timestamps: true }
 );

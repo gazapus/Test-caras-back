@@ -1,7 +1,7 @@
 elegir node config
 en powershell: $env:NODE_ENV="development"
 
-* registrarse
+* registrarse -> enviar mail
 * iniciar sesion
 * enviar test
 * hacer test enviado
