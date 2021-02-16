@@ -3,6 +3,11 @@
     "dbConfig": {
       "host": "mongodb+srv://gazapus:Fati2511@cluster0.yjnbb.mongodb.net",
       "dbName": "caras-r?retryWrites=true&w=majority"
+    },
+    "transporter": {
+      "user": "ef35f57202f75adb585adb3b95a0725b",
+      "password": "299cbe5f1af4a21a553abb01a283575e",
+      "remitent": "cristianv129@hotmail.com"
     }
   }
 }

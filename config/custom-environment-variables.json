@@ -1,9 +1,17 @@
 {
     "Customer": {
+        "server": {
+            "host": "HOST_URL"
+        },
         "dbConfig": {
             "host": "PROD_HOST",
             "port": "process.env.PORT",
             "dbName": "PROD_DBNAME"
+        },
+        "transporter": {
+            "user": "TRANSPORTER_USER",
+            "password": "TRANSPORTER_PASSWORD",
+            "remitent": "TRANSPORTER_REMITENT"
         }
     }
 }
