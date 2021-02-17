@@ -22,7 +22,6 @@ let verifyToken = (req, res, next) => {
     });
 };
 
-
 const authValidation = {
     checkDuplicatedEmail,
     verifyToken

@@ -8,6 +8,7 @@ exports.sign_in = async function (req, res) {
     try {
         const user = await User.findOne({ email: req.body.email });
         if (!user) return res.status(404).send({ message: "User not found" });
+        if(!user.confirmed) return res.status(400).send({ message: "User must confirm email to finish register"});
         const isPasswordValid = bcrypt.compareSync(req.body.password, user.password);
         if (isPasswordValid) {
             var token = jwt.sign({ id: user.id }, secret.SECRET_JWT_SIGN, { expiresIn: A_DAY_IN_MS });
