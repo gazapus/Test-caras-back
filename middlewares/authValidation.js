@@ -1,5 +1,6 @@
 var User = require('../apiServices/user/model');
 const secret = require("../secret");
+const jwt = require('jsonwebtoken');
 
 let checkDuplicatedEmail = (req, res, next) => {
     User.findOne({ email: req.body.email })

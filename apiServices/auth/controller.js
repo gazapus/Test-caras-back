@@ -4,11 +4,11 @@ var jwt = require("jsonwebtoken");
 const secret = require("../../secret");
 
 exports.sign_in = async function (req, res) {
-    const A_DAY_IN_MS = 500;
+    const A_DAY_IN_MS = 86400;
     try {
         const user = await User.findOne({ email: req.body.email });
         if (!user) return res.status(404).send({ message: "User not found" });
-        if(!user.confirmed) return res.status(400).send({ message: "User must confirm email to finish register"});
+        if (!user.confirmed) return res.status(400).send({ message: "User must confirm email to finish register" });
         const isPasswordValid = bcrypt.compareSync(req.body.password, user.password);
         if (isPasswordValid) {
             var token = jwt.sign({ id: user.id }, secret.SECRET_JWT_SIGN, { expiresIn: A_DAY_IN_MS });
@@ -54,16 +54,17 @@ exports.sign_up = async function (req, res, next) {
 
 exports.confirm = async function (req, res) {
     User.updateOne(
-        { _id: req.params.id }, 
-        { confirmed: true }, 
+        { _id: req.params.id },
+        { confirmed: true },
         (err, response) => {
             if (err) return res.status(500).send({ message: 'Some error occurred while updating this data' });
-            if(response.n === 0) return res.status(404).send({ message: 'User not found' });
+            if (response.n === 0) return res.status(404).send({ message: 'User not found' });
             return res.status(200).send(response)
         }
     )
 }
 
-exports.is_logged = async function (req, res) {
-
+exports.is_logged = function (req, res) {
+    console.log("hola")
+    return res.status(200).send('Ok')
 }
