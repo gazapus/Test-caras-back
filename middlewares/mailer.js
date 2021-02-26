@@ -1,14 +1,30 @@
 const config = require('config');
 const mailer = require('../utils/mailer');
-const host = config.get('Customer.server.host');
+const hostFront = config.get('Customer.front.host');
+
 const mailerConfig = config.get('Customer.transporter');
 
 function messageBody(id) {
     return `
-    <h3>Confirmá tu correo electrónico</h3>
-    <p>Para accedera tu cuenta y trabajar con el test de Caras-R confirmé su registro.</p>
-    <br/>
-    <a href="${host + '/confirmation/' + id}">CONFIRMAR</a>
+    <html>
+        <head>
+            <style>
+                * {
+                    display: flex;
+                }
+                hr {
+                    text-decoration: underline;
+                }
+            </style>
+        </head>
+        <body>
+            <h3>Confirmá tu correo electrónico</h3>
+            <p>Para accedera tu cuenta y trabajar con el test de Caras-R confirmé su registro.</p>
+            <br/>
+            <a href="${hostFront + 'confirmation/' + id}">CONFIRMAR</a>
+        </body>
+    </html>
+    
     `
 }
 
