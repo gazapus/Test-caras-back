@@ -1,8 +1,8 @@
 {
   "Customer": {
     "dbConfig": {
-      "host": "mongodb+srv://gazapus:Fati2511@cluster0.yjnbb.mongodb.net",
-      "dbName": "caras-r?retryWrites=true&w=majority"
+      "host": "mongodb://localhost:27017",
+      "dbName": "test-caras"
     },
     "transporter": {
       "user": "ef35f57202f75adb585adb3b95a0725b",
