@@ -16,6 +16,7 @@ exports.sign_in = async function (req, res) {
                 id: user.id,
                 name: user.name,
                 lastname: user.lastname,
+                email: user.email,
                 accessToken: token
             });
         } else {
@@ -65,6 +66,5 @@ exports.confirm = async function (req, res) {
 }
 
 exports.is_logged = function (req, res) {
-    console.log("hola")
     return res.status(200).send('Ok')
 }
