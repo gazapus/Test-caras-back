@@ -1,4 +1,5 @@
 var User = require('./model');
+const bcrypt = require('bcryptjs');
 
 exports.get_all = function (req, res) {
     User.find({})
@@ -106,4 +107,33 @@ exports.delete_all = (req, res) => {
                     err.message || "Some error occurred while removing all results."
             });
         });
+};
+
+async function checkChangedPassword(oldPassword, newPassword) {
+    const SALT_ROUNDS = 10;
+    let passwordHashed = oldPassword;
+    const isSamePassword = bcrypt.compareSync(newPassword, oldPassword);
+    if(!isSamePassword) {
+        passwordHashed = await bcrypt.hash(newPassword, SALT_ROUNDS);
+    }
+    return passwordHashed
+}
+
+exports.update_one_without_mail = async function (req, res) {
+    const id = req.params.id;
+    try {
+        let user = await User.findById(id);
+        const password = await checkChangedPassword(user.password, req.body.password);
+        user.name = req.body.name;
+        user.lastname = req.body.lastname;
+        user.password = password;
+        user.save()
+            .then(data => res.status(200).send(data))
+            .catch(err => {
+                res.status(500).send({ message: err.message || '"Some error occurred while updating this user' })
+            })
+    } catch(err) {
+        console.log(err)
+        res.status(500).send({ message: err.message || "Error retrieving user with id=" + id });
+    }
 };
