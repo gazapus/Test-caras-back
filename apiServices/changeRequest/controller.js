@@ -1,4 +1,5 @@
 let ChangeRequest = require('./model');
+let User = require('../user/model');
 
 exports.get_all = async function (req, res) {
     ChangeRequest.find({})
@@ -25,20 +26,37 @@ exports.create = async function (req, res) {
 
 exports.confirm = async function (req, res) {
     const id = req.params.id;
-    ChangeRequest.findOneAndUpdate({_id: id}, {$set: {confirmed: true}})
-        .then(data => {
-            res.status(200).send({message: 'Confirmación exitosa'});
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || '"Some error occurred while updating this request'
-            })
-        })
+    try {
+        let changeRequest = await ChangeRequest.findById(id);
+        if (changeRequest.canceled || changeRequest.confirmed)
+            return res.status(400).send({ message: 'Este cambio ya ha expirado' })
+        changeRequest.confirmed = true;
+        await changeRequest.save();
+        await User.findByIdAndUpdate(changeRequest.user_id, {$set: { email: changeRequest.newEmail }});
+        return res.status(200).send({ message: 'Confirmación exitosa' })
+    } catch(err) {
+        res.status(500).send({ message: err.message || 'Se produjo un error al realizar esta confirmación'})
+    }
+}
+
+exports.cancel = async function (req, res) {
+    const id = req.params.id;
+    try {
+        let changeRequest = await ChangeRequest.findById(id);
+        if (changeRequest.canceled)
+            return res.status(400).send({ message: 'Este cambio ya ha expirado' })
+        changeRequest.canceled = true;
+        await changeRequest.save();
+        await User.findByIdAndUpdate(changeRequest.user_id, {$set: { email: changeRequest.originalEmail }});
+        return res.status(200).send({ message: 'Cancelación exitosa' })
+    } catch(err) {
+        res.status(500).send({ message: err.message || 'Se produjo un error al realizar esta cancelación'})
+    }
 }
 
 exports.delete_one = async function (req, res) {
     const id = req.params.id;
-    ChangeRequest.findOneAndDelete({_id: id})
+    ChangeRequest.findOneAndDelete({ _id: id })
         .then(data => {
             res.status(200).send(data);
         })

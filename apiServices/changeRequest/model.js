@@ -8,6 +8,10 @@ let schema = new Schema({
     confirmed: {
         type: Boolean,
         default: false
+    },
+    canceled: {
+        type: Boolean,
+        default: false
     }
 },
     { timestamps: true }

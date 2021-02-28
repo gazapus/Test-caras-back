@@ -7,6 +7,7 @@ const mailer = require('../../middlewares/mailer');
 router.get('/get', controller.get_all);
 router.post('/create', [authValidation.verifyToken, controller.create, mailer.sendEmailChangeToOriginal], mailer.sendEmailChangeToNew);
 router.put('/confirm/:id', controller.confirm);
+router.put('/cancel/:id', controller.cancel);
 router.delete('/delete/:id', controller.delete_one);
 
 module.exports = router;

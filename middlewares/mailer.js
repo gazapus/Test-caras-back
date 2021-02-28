@@ -36,7 +36,7 @@ function confirmationNewEmailChange(id, newEmail) {
             Si ha sido usted no hace falta realizar otra acción. De lo contrario siga el siguiente enlace para cancelar este cambio.
         </p>
         <br/>
-        <a href="${hostFront + 'cancel-change/' + id}">REVERTIR CAMBIO</a>
+        <a href="${hostFront + 'cancel-change/' + id}">DESVINCULAR</a>
     `
 }
 
