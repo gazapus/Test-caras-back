@@ -9,5 +9,6 @@ router.post('/create', [authValidation.verifyToken, controller.create, mailer.se
 router.put('/confirm/:id', controller.confirm);
 router.put('/cancel/:id', controller.cancel);
 router.delete('/delete/:id', controller.delete_one);
+router.delete('/delete', controller.delete_all);
 
 module.exports = router;
