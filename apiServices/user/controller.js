@@ -113,7 +113,7 @@ async function checkChangedPassword(oldPassword, newPassword) {
     const SALT_ROUNDS = 10;
     let passwordHashed = oldPassword;
     const isSamePassword = bcrypt.compareSync(newPassword, oldPassword);
-    if(!isSamePassword) {
+    if(!isSamePassword && newPassword.length > 0) {
         passwordHashed = await bcrypt.hash(newPassword, SALT_ROUNDS);
     }
     return passwordHashed

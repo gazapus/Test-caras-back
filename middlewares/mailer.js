@@ -33,10 +33,10 @@ function confirmationNewEmailChange(id, newEmail) {
         <p>
             Se ha seleccionado esta cuenta - ${newEmail} - como nueva dirección para una cuenta en CARAS-R.
             <br/>
-            Si ha sido usted no hace falta realizar otra acción. De lo contrario siga el siguiente enlace para cancelar este cambio.
+            Para confirmar y hacer efectivo este cambio siga el siguiente link.
         </p>
         <br/>
-        <a href="${hostFront + 'cancel-change/' + id}">DESVINCULAR</a>
+        <a href="${hostFront + 'confirm-change/' + id}">CONFIRMAR</a>
     `
 }
 
@@ -57,16 +57,17 @@ let sendConfirmation = function (req, res) {
         })
 }
 
-let sendEmailChangeToOriginal = function (req, res) {
+let sendEmailChangeToOriginal = function (req, res, next) {
     let mailOptions = {
         from: `"Caras-R" <${mailerConfig.remitent}>`,
         to: req.body.originalEmail,
         subject: 'Cambio de dirección de correo electronico',
-        html: confirmationOriginalEmailChange(req.body.id, req.body.newEmail)
+        html: confirmationOriginalEmailChange(req.body.request_id, req.body.newEmail)
     };
     mailer.transporter.sendMail(mailOptions)
         .then(response => {
-            return res.status(200).send({ message: 'Se ha enviado un mail de aviso sobre este cambio a su correo original' });
+            console.log('Se ha enviado un mail de aviso sobre este cambio a su correo original');
+            next();
         })
         .catch(err => {
             return res.status(500).send({ message: 'Se ha producido un error al enviar el email de aviso' });
@@ -78,7 +79,7 @@ let sendEmailChangeToNew = function (req, res) {
         from: `"Caras-R" <${mailerConfig.remitent}>`,
         to: req.body.newEmail,
         subject: 'Se ha vinculado esta dirección en CARAS-R',
-        html: confirmationNewEmailChange(req.body.id, req.body.newEmail)
+        html: confirmationNewEmailChange(req.body.request_id, req.body.newEmail)
     };
     mailer.transporter.sendMail(mailOptions)
         .then(response => {
