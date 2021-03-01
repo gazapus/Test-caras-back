@@ -7,7 +7,9 @@ exports.get_all = async function (req, res) {
         .catch(err => res.status(500).send({ message: err.message || "Error retrieving data" }))
 }
 
-exports.create = async function (req, res) {
+exports.create = async function (req, res, next) {
+    let existingUser = await User.findOne({email: req.body.newEmail});
+    if(existingUser) return res.status(400).send({message: 'Ya existe un usuario registrado con este correo'})
     let changeRequest = new ChangeRequest({
         user_id: req.body.user_id,
         originalEmail: req.body.originalEmail,
@@ -15,7 +17,9 @@ exports.create = async function (req, res) {
     })
     changeRequest.save()
         .then(data => {
-            res.status(200).send(data);
+            console.log(data)
+            req.body.request_id = data.id;
+            next();
         })
         .catch(err => {
             res.status(500).send({
@@ -59,6 +63,19 @@ exports.delete_one = async function (req, res) {
     ChangeRequest.findOneAndDelete({ _id: id })
         .then(data => {
             res.status(200).send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || '"Some error occurred while deleting this request'
+            })
+        })
+}
+exports.delete_all = async function (req, res) {
+    ChangeRequest.deleteMany({})
+        .then(data => {
+            res.status(200).send({
+                message: `${data.deletedCount} results were deleted successfully!`
+            });
         })
         .catch(err => {
             res.status(500).send({
