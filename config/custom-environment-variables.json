@@ -1,8 +1,5 @@
 {
     "Customer": {
-        "server": {
-            "host": "HOST_URL"
-        },
         "dbConfig": {
             "host": "PROD_HOST",
             "port": "process.env.PORT",
