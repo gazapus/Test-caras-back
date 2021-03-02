@@ -140,5 +140,12 @@ exports.remove_test = async function (req, res) {
     }
 }
 
-let a = [12,3,4];
-a.findIndex(e => e === 1);
+exports.get_universal = async function(req, res) {
+    try {
+        let group = await Group.findOne({description: 'universal', owner: req.body.userId });
+        if(group) return res.status(200).send(group);
+        return res.status(404).send({message: 'Group not found'})
+    } catch(err) {
+        res.status(500).send({ message: err.message || "Error retrieving result"})
+    }
+}

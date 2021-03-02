@@ -4,7 +4,8 @@ var controller  = require('./controller');
 const authValidation = require('../../middlewares/authValidation');
 
 router.get('/get', controller.get_all);
-router.get('/get/:id', controller.get_one);
+router.get('/get/one/:id', controller.get_one);
+router.get('/get/universal', [authValidation.verifyToken], controller.get_universal);
 router.post('/create', [authValidation.verifyToken], controller.create);
 router.put('/update/one/:id', controller.update_one);
 router.delete('/delete', controller.delete_all);
