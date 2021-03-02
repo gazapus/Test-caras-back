@@ -6,3 +6,4 @@
 
 # To Add:
 - Validaciones de requests
+- Validar Permisos

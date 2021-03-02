@@ -2,21 +2,14 @@ const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let schema = new Schema({
-    comment: {
-        type: String,
-        default: ''
-    },    
+    description: String,    
     createdAt: {type: Date, default: Date.now()},
-    institution: String,
-    grade: String,
-    expiration_time: Date,
-    max_uses: Number,
+    institution: {type: String, default: 'No especificado' },
+    grade: {type: String, default: 'No especificado' },
+    expiration_time: {type: Date, default: new Date(2100, 1, 1)},
+    max_uses: {type: Number, default: 1000000},
     owner: { type: Schema.ObjectId, ref: 'User' },    
-    country: {
-        type: String,
-        required: true,
-        default: 'España'
-    },
+    country: { type: String, default: 'España' },
     tests: [{ type: Schema.ObjectId, ref: 'Test' }],
 })
 

@@ -1,4 +1,5 @@
 var Group = require('./model');
+let Test = require('../test/model');
 
 exports.get_all = function (req, res) {
     Group.find({})
@@ -28,7 +29,7 @@ exports.get_one = function (req, res) {
 
 exports.create = function (req, res) {
     let group = new Group({
-        comment: req.body.comment,
+        description: req.body.description,
         institution: req.body.institution,
         grade: req.body.grade,
         expiration_time: req.body.expiration_time,
@@ -51,7 +52,7 @@ exports.create = function (req, res) {
 exports.update_one = function (req, res) {
     const id = req.params.id;
     Group.findByIdAndUpdate(id, {
-        comment: req.body.comment,
+        description: req.body.description,
         institution: req.body.institution,
         grade: req.body.grade,
         expiration_time: req.body.expiration_time,
@@ -108,13 +109,36 @@ exports.delete_all = (req, res) => {
 
 exports.add_test = async function (req, res) {
     let group;
+    const test_id = req.body.test_id;
     try {
         group = await Group.findOne({_id: req.params.id });
-        group.tests.push(req.body.test_id);
-        group.save();
+        let test = await Test.findById(test_id);
+        if(!test) return res.status(404).send({message: "Test not found"});
+        let testExisting = group.tests.find(e => String(e) === String(test_id));
+        if(testExisting) return res.status(400).send({message: "Test ya agregado"});
+        group.tests.push(test_id);
+        await group.save();
         res.status(200).send("Ok");
     } catch(err) {
         if(!group) return res.status(404).send({message: "Group not found"});
         res.status(500).send({ message: err.message || "Error retrieving result"})
     }
 }
+
+exports.remove_test = async function (req, res) {
+    let group;
+    try {
+        group = await Group.findOne({_id: req.params.id });
+        let indexToRemove = group.tests.findIndex(value => String(value) === String(req.body.test_id));
+        if(indexToRemove === -1) return res.status(404).send({message: "Test not found"});
+        group.tests.splice(indexToRemove, 1);
+        await group.save();
+        res.status(200).send("Ok");
+    } catch(err) {
+        if(!group) return res.status(404).send({message: "Group not found"});
+        res.status(500).send({ message: err.message || "Error retrieving result"})
+    }
+}
+
+let a = [12,3,4];
+a.findIndex(e => e === 1);
