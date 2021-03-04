@@ -4,11 +4,11 @@ let Schema = mongoose.Schema;
 let schema = new Schema({
     description: String,    
     createdAt: {type: Date, default: Date.now()},
-    institution: {type: String, default: 'No especificado' },
+    institution: {type: String, default: 'No especificado', required: true },
     grade: {type: String, default: 'No especificado' },
     expiration_time: {type: Date, default: new Date(2100, 1, 1)},
     max_uses: {type: Number, default: 1000000},
-    owner: { type: Schema.ObjectId, ref: 'User' },    
+    owner: { type: Schema.ObjectId, ref: 'User', required: true },    
     country: { type: String, default: 'España' },
     tests: [{ type: Schema.ObjectId, ref: 'Test' }],
 })

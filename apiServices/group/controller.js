@@ -28,16 +28,10 @@ exports.get_one = function (req, res) {
 };
 
 exports.create = function (req, res) {
-    let group = new Group({
-        description: req.body.description,
-        institution: req.body.institution,
-        grade: req.body.grade,
-        expiration_time: req.body.expiration_time,
-        max_uses: req.body.max_uses,
-        owner: req.body.owner,
-        country: req.body.country,
-        tests: []
-    })
+    let groupData = req.body;
+    groupData.owner = req.body.userId;
+    groupData.tests = [];
+    let group = new Group(groupData);
     group.save()
         .then(data => {
             res.status(200).send(data);

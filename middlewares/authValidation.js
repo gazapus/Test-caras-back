@@ -15,7 +15,7 @@ let checkDuplicatedEmail = (req, res, next) => {
 
 let verifyToken = (req, res, next) => {
     let token = req.headers["x-access-token"];
-    if (!token) return res.status(403).send({ message: "No token provided!" });
+    if (!token) return res.status(403).send({ message: "No authentification token provided!" });
     jwt.verify(token, secret.SECRET_JWT_SIGN, (err, decoded) => {
         if (err) return res.status(401).send({ message: "Unauthorized!" });
         req.body.userId = decoded.id;
