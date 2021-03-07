@@ -19,4 +19,18 @@ schema.method("toJSON", function () {
     return object;
 });
 
+schema.post("save", async function (doc, next) {
+    if(doc.description === "universal") return next();
+    let User = require('../user/model');
+    try {
+        let user = await User.findById(doc.owner);
+        user.groups.push(doc);
+        await user.save();
+    } catch(err) {
+        console.log(err);
+        let error = new Error('No se pudo, duro');
+        next(error)
+    }
+})
+
 module.exports = mongoose.model('Group', schema)
