@@ -27,6 +27,44 @@ exports.get_one = function (req, res) {
         });
 };
 
+
+exports.verify_chances = function (req, res, next) {
+    const id = req.params.id;
+    Group.findById(id)
+        .then(group => {
+            if (group) {
+                if(group.tests.length >= group.max_uses) 
+                    return res.status(400).send({message: "No quedan mas cupos para este test"});
+                if(group.expiration_time < new Date()) {
+                    return res.status(400).send({message: "Este enlace ya ha expirado"});
+                }
+                next();
+            }
+            else res.status(404).send({ message: "Not found result with id " + id });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message || "Error retrieving result with id=" + id });
+        });
+};
+
+exports.get_one_public = function (req, res) {
+    const id = req.params.id;
+    Group.findById(id)
+        .then(group => {
+            if (group) {
+                let requestInstitutionalInfo = group.institution === 'No especificado';
+                return res.status(200).send({
+                    country: group.country,
+                    requestInstitutionalInfo
+                });
+            }
+            else res.status(404).send({ message: "Not found result with id " + id });
+        })
+        .catch(err => {
+            res.status(500).send({ message: err.message || "Error retrieving result with id=" + id });
+        });
+};
+
 exports.create = function (req, res) {
     let groupData = req.body;
     groupData.owner = req.body.userId;

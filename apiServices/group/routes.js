@@ -5,6 +5,7 @@ const authValidation = require('../../middlewares/authValidation');
 
 router.get('/get', controller.get_all);
 router.get('/get/one/:id', controller.get_one);
+router.get('/get/basic/:id', [controller.verify_chances], controller.get_one_public);
 router.get('/get/universal', [authValidation.verifyToken], controller.get_universal);
 router.post('/create', [authValidation.verifyToken], controller.create);
 router.put('/update/one/:id', controller.update_one);
