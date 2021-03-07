@@ -19,6 +19,10 @@ schema.method("toJSON", function () {
     return object;
 });
 
+schema.methods.requestInstitutionalInfo = function() {
+    return this.institution === "No especificado";
+}
+
 schema.post("save", async function (doc, next) {
     if(doc.description === "universal") return next();
     let User = require('../user/model');
