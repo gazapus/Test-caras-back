@@ -39,7 +39,8 @@ const defineBaremoToUse = (age, baremoCountry) => {
     let baremos = (baremoCountry === "Argentina") ? BaremosArg : BaremosEsp;
     let ageToTest = age;
     if(age < 6) ageToTest = 6;
-    if(age > 17) ageToTest = 17;
+    if(baremoCountry === "Argentina" && age > 12 ) ageToTest = 12;
+    if(baremoCountry === "España" && age > 17 ) ageToTest = 17;
     let baremo = baremos.find(e => e.age === ageToTest);
     return baremo;
 }
