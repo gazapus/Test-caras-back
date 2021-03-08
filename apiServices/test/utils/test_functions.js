@@ -37,7 +37,10 @@ const calculateICI = (successes, errors) => {
 
 const defineBaremoToUse = (age, baremoCountry) => {
     let baremos = (baremoCountry === "Argentina") ? BaremosArg : BaremosEsp;
-    let baremo = baremos.find(e => e.age === age);
+    let ageToTest = age;
+    if(age < 6) ageToTest = 6;
+    if(age > 17) ageToTest = 17;
+    let baremo = baremos.find(e => e.age === ageToTest);
     return baremo;
 }
 
